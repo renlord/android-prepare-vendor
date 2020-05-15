@@ -133,6 +133,7 @@ if [[ "$OUTPUT_DIR" == "" || ! -d "$OUTPUT_DIR" ]]; then
   usage
 fi
 
+
 # If alias not provided assume same as device codename for simplicity.
 # If wrong choice, later scripts will fail to find blobs list file.
 if [[ "$DEV_ALIAS" == "" ]]; then
@@ -163,10 +164,10 @@ fi
 
 # Then retrieve the index page
 if [ "$OTA" = true ]; then
-  url=$(curl -L -b "$COOKIE_FILE" --silent "$URL" | \
+  url=$(curl -L -b "$COOKIE_FILE" --cookie "devsite_wall_acks=nexus-ota-tos" --silent "$URL" | \
         grep -i "<a href=.*$DEV_ALIAS-ota-$BUILDID-" | cut -d '"' -f2)
 else
-  url=$(curl -L -b "$COOKIE_FILE" --silent  "$URL" | \
+  url=$(curl -L -b "$COOKIE_FILE" --cookie "devsite_wall_acks=nexus-image-tos" --silent  "$URL" | \
         grep -i "<a href=.*$DEV_ALIAS-$BUILDID-" | cut -d '"' -f2)
 fi
 
